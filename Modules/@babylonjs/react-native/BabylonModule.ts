@@ -14,6 +14,7 @@ const NativeBabylonModule: {
 
 export const BabylonModule = {
     initialize: async () => {
+        console.log("Calling NativeBabylonModule.initialize");
         const initialized = await NativeBabylonModule.initialize();
         if (initialized) {
             console.log("Awaiting graphics initialization promise");

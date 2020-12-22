@@ -1,8 +1,4 @@
-Push-Location "..\..\..\"
-
-git submodule update --init --recursive
-
-cd "$PSScriptRoot\..\..\..\Modules\@babylonjs\react-native\submodules\BabylonNative"
+Push-Location "$PSScriptRoot\..\..\..\Modules\@babylonjs\react-native\submodules\BabylonNative"
 
 $BuildDir = "Build_uwp_x64"
 mkdir $BuildDir

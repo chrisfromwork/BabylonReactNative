@@ -7,6 +7,7 @@
 
 #include "winrt/BabylonNative.h"
 
+#define _SCRIPT_DEBUGGING 1
 
 using namespace winrt::Playground;
 using namespace winrt::Playground::implementation;
@@ -24,6 +25,8 @@ using namespace Windows::ApplicationModel;
 App::App() noexcept
 {
 #if BUNDLE
+    // Note: Add <UseBundle>true</UseBundle> to the project properties to make sure BUNDLE is true
+    // We don't have access to the js runtime without bundling
     JavaScriptBundleFile(L"index.windows");
     InstanceSettings().UseWebDebugger(false);
     InstanceSettings().UseFastRefresh(false);
@@ -39,6 +42,7 @@ App::App() noexcept
     InstanceSettings().UseDeveloperSupport(false);
 #endif
 
+#if _SCRIPT_DEBUGGING
     // TODO unclear whether this should always be enabled
     InstanceSettings().UseDeveloperSupport(false);
     InstanceSettings().UseWebDebugger(false);
@@ -46,6 +50,7 @@ App::App() noexcept
     InstanceSettings().DebuggerBreakOnNextLine(true);
     InstanceSettings().UseFastRefresh(false);
     InstanceSettings().EnableDeveloperMenu(false);
+#endif
 
     RegisterAutolinkedNativeModulePackages(PackageProviders()); // Includes any autolinked modules
 

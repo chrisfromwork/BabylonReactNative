@@ -50,7 +50,12 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
 
       scene.beforeRender = function () {
         console.log("updating box rotation");
-        box.rotate(Vector3.Up(), 0.005 * scene.getAnimationRatio());
+        try
+        {
+          box.rotate(Vector3.Up(), 0.005 * scene.getAnimationRatio());
+        } catch (error) {
+          console.log(error.stack);
+        }
       };
     }
   }, [engine]);
@@ -81,7 +86,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
 
           // needed for hmds
           scene.autoClear = true;
-          scene.clearColor = new Color4(0, 0, 0, 0);
+          //scene.clearColor = new Color4(0, 0, 0, 0);
         }
       }
     })();
