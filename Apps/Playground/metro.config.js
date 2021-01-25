@@ -70,7 +70,7 @@ module.exports = {
         get: (target, name) => name in target ? target[name] : path.join(__dirname, `node_modules/${name}`),
       },
     ),
-    
+
     blockList: exclusionList([
       // Avoid error EBUSY: resource busy or locked, open 'D:\a\1\s\packages\playground\msbuild.ProjectImports.zip' in pipeline
       /.*\.ProjectImports\.zip/,
@@ -80,10 +80,19 @@ module.exports = {
         `${path.resolve(__dirname, 'windows').replace(/[/\\]/g, '/')}.*`,
       ),
     ]),
-  },
 
-  projectRoot: path.resolve(__dirname),
+    projectRoot: path.resolve(__dirname),
 
-  // Also additionally watch all the mapped local directories for changes to support live updates.
-  watchFolders: Object.values(moduleMappings),
+    // Also additionally watch all the mapped local directories for changes to support live updates.
+    watchFolders: Object.values(moduleMappings),
+
+    blacklistRE: blacklist([
+      // This stops "react-native run-windows" from causing the metro server to crash if its already running
+      new RegExp(
+        `${path.resolve(__dirname, 'windows').replace(/[/\\]/g, '/')}.*`,
+      ),
+      // This prevents "react-native run-windows" from hitting: EBUSY: resource busy or locked, open msbuild.ProjectImports.zip
+      /.*\.ProjectImports\.zip/,
+    ]),
+  }
 };
