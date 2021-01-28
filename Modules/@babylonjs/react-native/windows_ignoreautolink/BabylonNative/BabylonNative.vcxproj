@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="..\..\windows\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\..\windows\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.201217.4\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.201217.4\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <PropertyGroup Label="Globals">
+    <CppWinRTOptimized>true</CppWinRTOptimized>
+    <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
+    <CppWinRTGenerateWindowsMetadata>true</CppWinRTGenerateWindowsMetadata>
+    <MinimalCoreWin>true</MinimalCoreWin>
+    <ProjectGuid>{cc694bc1-8a45-4dec-8b3e-ee94f5da579e}</ProjectGuid>
+    <ProjectName>BabylonNative</ProjectName>
+    <RootNamespace>BabylonNative</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Store</ApplicationType>
+    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.17134.0</WindowsTargetPlatformMinVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="ReactNativeWindowsProps">
+    <!-- First try and resolve react-native-windows package at a relative location when installing the @babylonjs/react-native package in your project -->
+    <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(ProjectDir)..\..\..\..\..\node_modules\react-native-windows\package.json')">$(ProjectDir)\..\..\..\..\..\node_modules\react-native-windows\</ReactNativeWindowsDir>
+    <!-- Else try and resolve react-native-windows package in the Apps\Playground\node_modules folder relative to the BabylonNative.vcxproj location in the github repo -->
+    <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(SolutionDir)..\node_modules\react-native-windows\package.json')">$(SolutionDir)\..\node_modules\react-native-windows\</ReactNativeWindowsDir>
+    <!-- If all else failes, try and resolve react-native-windows package using the Playground app node_modules -->
+    <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(ProjectDir)..\..\..\..\..\Apps\Playground\node_modules\react-native-windows\package.json')">$(ProjectDir)\..\..\..\..\..\Apps\Playground\node_modules\react-native-windows\</ReactNativeWindowsDir>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Label="ReactNativeWindowsPropertySheets">
+    <Import Project="$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.props" Condition="Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level4</WarningLevel>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <!--Temporarily disable cppwinrt heap enforcement to work around xaml compiler generated std::shared_ptr use -->
+      <AdditionalOptions Condition="'$(CppWinRTHeapEnforcement)'==''">/DWINRT_NO_MAKE_DETECTION %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WINRT_DLL;WIN32_LEAN_AND_MEAN;WINRT_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>..\..\shared;..\..\submodules\BabylonNative\Dependencies\arcana.cpp\Source\Submodules\GSL\include;..\..\submodules\BabylonNative\Dependencies\arcana.cpp\Source\Shared;..\..\submodules\BabylonNative\Dependencies\arcana.cpp\Source\Windows;..\..\submodules\BabylonNative\Core\Graphics\Include;..\..\submodules\BabylonNative\Core\JsRuntime\Include;..\..\submodules\BabylonNative\Dependencies\napi\napi-jsi\include;..\..\..\..\..\Apps\Playground\node_modules\react-native\ReactCommon\jsi;..\..\submodules\BabylonNative\Plugins\NativeEngine\Include;..\..\submodules\BabylonNative\Plugins\NativeInput\Include;..\..\submodules\BabylonNative\Plugins\NativeXr\Include;..\..\submodules\BabylonNative\Polyfills\Window\Include;..\..\submodules\BabylonNative\Polyfills\XMLHttpRequest\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>BabylonNative.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\shared\BabylonNative.h" />
+    <ClInclude Include="..\..\shared\DispatchFunction.h" />
+    <ClInclude Include="BabylonNativeInterop.h">
+      <DependentUpon>BabylonNativeInterop.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="ReactPackageProvider.h">
+      <DependentUpon>ReactPackageProvider.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\shared\BabylonNative.cpp" />
+    <ClCompile Include="BabylonNativeInterop.cpp">
+      <DependentUpon>BabylonNativeInterop.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="ReactPackageProvider.cpp">
+      <DependentUpon>ReactPackageProvider.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BabylonNative.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="PropertySheet.props" />
+    <Text Include="readme.txt">
+      <DeploymentContent>false</DeploymentContent>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Core\Graphics\Graphics.vcxproj">
+      <Project>{793a388b-6c5c-367a-b63c-341d85f02dea}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Core\JsRuntime\JsRuntime.vcxproj">
+      <Project>{2ed12712-3c1d-3f23-8404-e09576cc95c2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\arcana.cpp\arcana.vcxproj">
+      <Project>{7ca99684-f9d5-3b61-a9cb-5b9d43403710}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\astc-codec.vcxproj">
+      <Project>{fd9d2397-f080-3b1b-9a70-a617393f9a85}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\astc.vcxproj">
+      <Project>{09842e98-ed18-3f08-8493-4c9db1489937}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\bgfx.vcxproj">
+      <Project>{88fe5358-5cf2-3a48-972e-ae4d29052fb8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\bimg.vcxproj">
+      <Project>{c1a26cfe-c536-3146-a778-10d021d3bb40}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\bx.vcxproj">
+      <Project>{280c1eb7-6e9c-3015-935f-be6a587452cb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\edtaa3.vcxproj">
+      <Project>{c4efae09-06e3-3d43-83f6-80425ca6998a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\etc1.vcxproj">
+      <Project>{8f10d9e0-e5da-3e39-a87a-4c45f3f671ca}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\etc2.vcxproj">
+      <Project>{7733a22f-0a8e-3f91-84ba-50885e7856cc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\iqa.vcxproj">
+      <Project>{5754fe42-26cb-32ab-bea1-f16989a47f18}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\nvtt.vcxproj">
+      <Project>{4a7d2baa-f739-39ac-b115-b02a66b9e951}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\pvrtc.vcxproj">
+      <Project>{e9dea0a4-107f-3a5f-9633-0e9e0e963f45}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\squish.vcxproj">
+      <Project>{92b840b8-247a-3f88-b2e8-c8b72549634a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\glslang\GenericCodeGen.vcxproj">
+      <Project>{ec97a050-8cd8-3474-947b-cc43f67d6de3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\glslang\glslang.vcxproj">
+      <Project>{574f1f2c-4ab5-3f6f-9f06-8621423a0989}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\glslang\MachineIndependent.vcxproj">
+      <Project>{eea7b2ab-1870-39ef-b91b-18c3d3cb1ae0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\glslang\OSDependent\Windows\OSDependent.vcxproj">
+      <Project>{a5acdc0d-518f-3b6a-a78f-c6cdeb88d304}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\OGLCompilersDLL\OGLCompiler.vcxproj">
+      <Project>{59e71feb-42d2-36ac-b66e-451cea44f6da}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\glslang\SPIRV\SPIRV.vcxproj">
+      <Project>{f8bbded0-a91f-3fb8-bf4e-6fc92c843313}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\napi\napi-jsi\napi.vcxproj">
+      <Project>{4a79e2fa-1ece-36ae-b99f-349abc1cf4c0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\SPIRV-Cross\spirv-cross-core.vcxproj">
+      <Project>{c169eca5-ef58-3050-b821-1a3d9e260ab0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\SPIRV-Cross\spirv-cross-glsl.vcxproj">
+      <Project>{016f2ab9-aa8c-3dd4-98e6-a7758766714d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\SPIRV-Cross\spirv-cross-hlsl.vcxproj">
+      <Project>{6c6d995c-f442-3ee5-a7c2-398e8a1b2b29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\UrlLib\UrlLib.vcxproj">
+      <Project>{58bb43d4-b734-34ed-9c55-b942b038729d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\xr\Dependencies\OpenXR-SDK\src\loader\openxr_loader.vcxproj">
+      <Project>{57f9d02f-be3d-31b4-8d71-5716defe4754}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\xr\xr.vcxproj">
+      <Project>{0cdfcbfc-4839-3676-8e58-d678c4e7b8ea}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\jsi\jsi.vcxproj">
+      <Project>{9f06b24c-6ed0-32c5-88f4-693b619dba08}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Plugins\NativeEngine\NativeEngine.vcxproj">
+      <Project>{9038c3e4-07f9-3acf-8478-f0e303b9a09c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Plugins\NativeInput\NativeInput.vcxproj">
+      <Project>{98b8e05b-6369-37bd-9d72-ae93509da28f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Plugins\NativeXr\NativeXr.vcxproj">
+      <Project>{54917e40-50d0-373f-b52d-bd06bd63c23e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Polyfills\Window\Window.vcxproj">
+      <Project>{ab2b286e-3cbb-31ce-a26d-796d0f570780}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\BabylonNative\Build_uwp_x64\Polyfills\XMLHttpRequest\XMLHttpRequest.vcxproj">
+      <Project>{6c07b828-a928-3f21-b593-5f4d5959e33d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="BabylonNativeInterop.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ReactPackageProvider.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ReactNativeWindowsTargets">
+    <Import Project="$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets" Condition="Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureReactNativeWindowsTargets" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references targets in your node_modules\react-native-windows folder that are missing. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.props')" Text="$([System.String]::Format('$(ErrorText)', '$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.props'))" />
+    <Error Condition="!Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets'))" />
+  </Target>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.201217.4\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.201217.4\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="..\..\windows\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\..\windows\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
+</Project>

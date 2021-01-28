@@ -13,6 +13,8 @@ namespace winrt::BabylonReactNative::implementation {
         void CustomInitialize(const winrt::Microsoft::ReactNative::ReactPromise<bool>& result) noexcept;
 
     private:
-         winrt::Microsoft::ReactNative::ReactContext _reactContext;
+        void OnInitializeCompleted(bool success);
+        winrt::Microsoft::ReactNative::ReactContext _reactContext;
+        std::vector<winrt::Microsoft::ReactNative::ReactPromise<bool>> _initializePromises{};
     };
 } // namespace winrt::BabylonReactNative::implementation

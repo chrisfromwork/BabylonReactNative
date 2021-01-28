@@ -1,0 +1,15 @@
+namespace BabylonNative
+{
+    delegate void InitializeCompletedHandler(Boolean success);
+
+    [default_interface]
+    static runtimeclass BabylonNativeInterop 
+    {
+        static void Initialize(Microsoft.ReactNative.IReactContext reactContext, InitializeCompletedHandler callback);
+        static void Deinitialize();
+        static void UpdateView(Windows.UI.Xaml.Controls.SwapChainPanel swapChainPanel, UInt32 width, UInt32 height);
+        static void RenderView();
+        static void SetPointerButtonState(UInt32 pointerId, UInt32 buttonId, Boolean isDown, UInt32 x, UInt32 y);
+        static void SetPointerPosition(UInt32 pointerId, UInt32 x, UInt32 y);
+    }
+}

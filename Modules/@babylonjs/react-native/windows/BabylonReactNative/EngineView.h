@@ -14,8 +14,8 @@ namespace winrt::BabylonReactNative::implementation {
         void OnPointerReleased(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::PointerRoutedEventArgs const& args);
         void OnRendering();
 
-        size_t _width{ 1 };
-        size_t _height{ 1 };
+        uint32_t _width{ 1 };
+        uint32_t _height{ 1 };
 
         struct RevokerData
         {

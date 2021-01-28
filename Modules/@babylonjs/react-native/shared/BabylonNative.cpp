@@ -1,3 +1,4 @@
+#pragma once
 #include "BabylonNative.h"
 
 #include <Babylon/Graphics.h>
@@ -163,7 +164,7 @@ namespace Babylon
             }
             else if (propName == "reset")
             {
-                return jsi::Function::createFromHostFunction(runtime, prop, 0, [this](jsi::Runtime& rt, const jsi::Value&, const jsi::Value*, size_t) -> jsi::Value
+                return jsi::Function::createFromHostFunction(runtime, prop, 0, [this](jsi::Runtime& /*rt*/, const jsi::Value&, const jsi::Value*, size_t) -> jsi::Value
                 {
                     this->ResetView();
                     return {};
