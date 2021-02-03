@@ -112,7 +112,15 @@ const copyAndroidFiles = async () => {
   });
 
   await new Promise(resolve => {
-          gulp.src('../Apps/Playground/node_modules/@babylonjs/react-native/android/build/intermediates/library_and_local_jars_jni/release/**/*')
+          gulp.src('../Apps/Playground/node_modules/@babylonjs/react-native/android/build/intermediates/library_and_local_jars_jni/release/jni/**/*')
+    .pipe(gulp.dest('Assembled/android/src/main/jniLibs/'))
+    .on('end', resolve);
+  });
+
+  // This is no longer found in the directory above because it is explicitly excluded because Playground has been updated to RN 0.64 which includes
+  // the real implementation of libturbomodulejsijni.so, but we still need to support RN 0.63 consumers, so grab this one explicitly to include it in the package.
+  await new Promise(resolve => {
+          gulp.src('../Apps/Playground/node_modules/@babylonjs/react-native/android/build/intermediates/cmake/release/obj/**/libturbomodulejsijni.so')
     .pipe(gulp.dest('Assembled/android/src/main/jniLibs/'))
     .on('end', resolve);
   });
@@ -275,6 +283,7 @@ Assembled/android/src/main/jniLibs/arm64-v8a/libturbomodulejsijni.so
 Assembled/android/src/main/jniLibs/arm64-v8a/libBabylonNative.so
 Assembled/react-native-babylon.podspec
 Assembled/index.ts
+Assembled/VersionValidation.ts
 Assembled/BabylonModule.ts
 Assembled/ReactNativeEngine.ts
 `;
@@ -306,6 +315,10 @@ exports.clean = clean;
 exports.build = build;
 exports.rebuild = rebuild;
 exports.pack = pack;
+
+const packAndroid = gulp.series(clean, buildAndroid, copyFiles, createPackage);
+exports.buildAndroid = buildAndroid;
+exports.packAndroid = packAndroid;
 
 const copyPackageFilesUWP = gulp.series(copyCommonFiles, copySharedFiles, copyUWPFiles);
 const buildUWPPublish = gulp.series(buildUWP, copyPackageFilesUWP);
