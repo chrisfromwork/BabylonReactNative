@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- prevent copying NuGet winmd files -->
+  <ItemDefinitionGroup>
+    <ProjectReference Condition="'$(XamlLanguage)' != 'C++' and '$(CppWinRTEnableDefaultCopyLocalFalse)' == 'true'">
+      <!-- By default, for a C++/WinRT project,
+                 don't copy project reference output to the output directory
+                 of the current project for projects that are not an exe. -->
+      <Private Condition="'$(ConfigurationType)' != 'Application' and '$(OutputType)'!='winexe' and '$(OutputType)'!='exe' and '$(OutputType)'!='appcontainerexe'">false</Private>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+</Project>

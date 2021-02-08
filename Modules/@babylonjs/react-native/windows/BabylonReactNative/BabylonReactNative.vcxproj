@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Note: CppWinRT NuGet dependency should be resolved for the solution not the individual project -->
-  <Import Project="..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" />
-  <Import Project="$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" />
   <PropertyGroup Label="Globals">
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
@@ -25,8 +24,10 @@
     <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(ProjectDir)..\..\..\..\..\node_modules\react-native-windows\package.json')">$(ProjectDir)\..\..\..\..\..\node_modules\react-native-windows\</ReactNativeWindowsDir>
     <!-- Else try and resolve react-native-windows package in the Apps\Playground\node_modules folder relative to the BabylonNative.vcxproj location in the github repo -->
     <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(SolutionDir)..\node_modules\react-native-windows\package.json')">$(SolutionDir)\..\node_modules\react-native-windows\</ReactNativeWindowsDir>
-    <!-- If all else failes, try and resolve react-native-windows package using the Playground app node_modules -->
+    <!-- If all else fails, try and resolve react-native-windows package using the Playground app node_modules -->
     <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == '' And Exists('$(ProjectDir)..\..\..\..\..\Apps\Playground\node_modules\react-native-windows\package.json')">$(ProjectDir)\..\..\..\..\..\Apps\Playground\node_modules\react-native-windows\</ReactNativeWindowsDir>
+    <!-- This will eventually default to true and this property should be removed -->
+    <UseExperimentalNuget>true</UseExperimentalNuget>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
@@ -121,21 +122,8 @@
     </ClCompile>
     <Link>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <!-- Libraries built from repo will be autolinked -->
-      <AdditionalDependencies Condition="Exists('$(ProjectDir)..\..\submodules\BabylonNative')">WindowsApp.lib;%(AdditionalDependencies);</AdditionalDependencies>
-      <!-- Libraries built from npm package need to be declared-->
-      <AdditionalDependencies Condition="Exists('$(ProjectDir)..\libs')">arcana.lib;astc.lib;astc-codec.lib;BabylonNative.lib;bgfx.lib;bimg.lib;bx.lib;edtaa3.lib;etc1.lib;etc2.lib;GenericCodeGend.lib;glslangd.lib;Graphics.lib;iqa.lib;jsi.lib;JsRuntime.lib;MachineIndependentd.lib;napi.lib;NativeEngine.lib;NativeInput.lib;NativeXr.lib;nvtt.lib;OGLCompilerd.lib;openxr_loader.lib;OSDependentd.lib;pvrtc.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;spirv-cross-hlsl.lib;SPIRVd.lib;squish.lib;UrlLib.lib;Window.lib;XMLHttpRequest.lib;xr.lib;WindowsApp.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
-      <!-- Library directories when building in repo -->
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\napi\napi-jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\Core\JsRuntime\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\Core\Graphics\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\Plugins\NativeInput\Debug;..\..\submodules\BabylonNative\Build_uwp_x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_arm\Dependencies\bgfx.cmake\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\Dependencies\napi\napi-jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\Core\JsRuntime\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\Core\Graphics\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\Plugins\NativeInput\Debug;..\..\submodules\BabylonNative\Build_uwp_arm\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_arm64\Dependencies\bgfx.cmake\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\Dependencies\napi\napi-jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\Core\JsRuntime\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\Core\Graphics\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\Plugins\NativeInput\Debug;..\..\submodules\BabylonNative\Build_uwp_arm64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_x86\Dependencies\bgfx.cmake\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\Dependencies\napi\napi-jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\jsi\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\Core\JsRuntime\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\Core\Graphics\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\Plugins\NativeInput\Debug;..\..\submodules\BabylonNative\Build_uwp_x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <!-- Library directories when building from npm package -->
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64' And Exists('$(ProjectDir)..\libs')">..\libs\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM' And Exists('$(ProjectDir)..\libs')">..\libs\arm\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64' And Exists('$(ProjectDir)..\libs')">..\libs\arm64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' And Exists('$(ProjectDir)..\libs')">..\libs\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -149,21 +137,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <!-- Libraries built from repo will be autolinked -->
-      <AdditionalDependencies Condition="Exists('$(ProjectDir)..\..\submodules\BabylonNative')">WindowsApp.lib;%(AdditionalDependencies)"</AdditionalDependencies>
-      <!-- Libraries built from npm package need to be declared-->
-      <AdditionalDependencies Condition="Exists('$(ProjectDir)..\libs')">arcana.lib;astc.lib;astc-codec.lib;BabylonNative.lib;bgfx.lib;bimg.lib;bx.lib;edtaa3.lib;etc1.lib;etc2.lib;GenericCodeGen.lib;glslang.lib;Graphics.lib;iqa.lib;jsi.lib;JsRuntime.lib;MachineIndependent.lib;napi.lib;NativeEngine.lib;NativeInput.lib;NativeXr.lib;nvtt.lib;OGLCompiler.lib;openxr_loader.lib;OSDependent.lib;pvrtc.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;spirv-cross-hlsl.lib;SPIRV.lib;squish.lib;UrlLib.lib;Window.lib;XMLHttpRequest.lib;xr.lib;WindowsApp.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;%(AdditionalDependencies)"</AdditionalDependencies>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
-      <!-- Library directories when building in repo -->
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\bgfx.cmake\Release;..\..\submodules\BabylonNative\Build_uwp_x64\Dependencies\napi\napi-jsi\Release;..\..\submodules\BabylonNative\Build_uwp_x64\jsi\Release;..\..\submodules\BabylonNative\Build_uwp_x64\Core\JsRuntime\Release;..\..\submodules\BabylonNative\Build_uwp_x64\Core\Graphics\Release;..\..\submodules\BabylonNative\Build_uwp_x64\Plugins\NativeInput\Release;..\..\submodules\BabylonNative\Build_uwp_x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_arm\Dependencies\bgfx.cmake\Release;..\..\submodules\BabylonNative\Build_uwp_arm\Dependencies\napi\napi-jsi\Release;..\..\submodules\BabylonNative\Build_uwp_arm\jsi\Release;..\..\submodules\BabylonNative\Build_uwp_arm\Core\JsRuntime\Release;..\..\submodules\BabylonNative\Build_uwp_arm\Core\Graphics\Release;..\..\submodules\BabylonNative\Build_uwp_arm\Plugins\NativeInput\Release;..\..\submodules\BabylonNative\Build_uwp_arm\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_arm64\Dependencies\bgfx.cmake\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\Dependencies\napi\napi-jsi\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\jsi\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\Core\JsRuntime\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\Core\Graphics\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\Plugins\NativeInput\Release;..\..\submodules\BabylonNative\Build_uwp_arm64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32' And Exists('$(ProjectDir)..\..\submodules\BabylonNative')">..\..\submodules\BabylonNative\Build_uwp_x86\Dependencies\bgfx.cmake\Release;..\..\submodules\BabylonNative\Build_uwp_x86\Dependencies\napi\napi-jsi\Release;..\..\submodules\BabylonNative\Build_uwp_x86\jsi\Release;..\..\submodules\BabylonNative\Build_uwp_x86\Core\JsRuntime\Release;..\..\submodules\BabylonNative\Build_uwp_x86\Core\Graphics\Release;..\..\submodules\BabylonNative\Build_uwp_x86\Plugins\NativeInput\Release;..\..\submodules\BabylonNative\Build_uwp_x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <!-- Library directories when building from npm package -->
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64' And Exists('$(ProjectDir)..\libs')">..\libs\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM' And Exists('$(ProjectDir)..\libs')">..\libs\arm\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64' And Exists('$(ProjectDir)..\libs')">..\libs\arm64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32' And Exists('$(ProjectDir)..\libs')">..\libs\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -213,16 +188,19 @@
     <Error Condition="!Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Uwp.CppLib.targets'))" />
   </Target>
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="$(SolutionDir)\packages\Microsoft.ReactNative.0.64.0-preview.5\build\native\Microsoft.ReactNative.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.ReactNative.0.64.0-preview.5\build\native\Microsoft.ReactNative.targets')" />
+    <Import Project="$(SolutionDir)\packages\Microsoft.ReactNative.Cxx.0.64.0-preview.5\build\native\Microsoft.ReactNative.Cxx.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.ReactNative.Cxx.0.64.0-preview.5\build\native\Microsoft.ReactNative.Cxx.targets')" />
+    <Import Project="$(SolutionDir)\packages\$(WinUIPackageName).$(WinUIPackageVersion)\build\native\$(WinUIPackageName).targets" Condition="Exists('$(SolutionDir)\packages\$(WinUIPackageName).$(WinUIPackageVersion)\build\native\$(WinUIPackageName).targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', $(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.props'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.201102.2\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
-    <Error Condition="!Exists('..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\Apps\Playground\windows\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', $(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Microsoft.Windows.CppWinRT.2.0.210122.3\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.ReactNative.0.64.0-preview.5\build\native\Microsoft.ReactNative.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Microsoft.ReactNative.0.64.0-preview.5\build\native\Microsoft.ReactNative.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Microsoft.ReactNative.Cxx.0.64.0-preview.5\build\native\Microsoft.ReactNative.Cxx.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Microsoft.ReactNative.Cxx.0.64.0-preview.5\build\native\Microsoft.ReactNative.Cxx.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\$(WinUIPackageName).$(WinUIPackageVersion)\build\native\$(WinUIPackageName).targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\$(WinUIPackageName).$(WinUIPackageVersion)\build\native\$(WinUIPackageName).targets'))" />
   </Target>
 </Project>

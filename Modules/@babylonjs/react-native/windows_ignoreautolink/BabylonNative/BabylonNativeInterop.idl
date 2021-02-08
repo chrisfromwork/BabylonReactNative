@@ -9,7 +9,12 @@ namespace BabylonNative
         static void Deinitialize();
         static void UpdateView(Windows.UI.Xaml.Controls.SwapChainPanel swapChainPanel, UInt32 width, UInt32 height);
         static void RenderView();
-        static void SetPointerButtonState(UInt32 pointerId, UInt32 buttonId, Boolean isDown, UInt32 x, UInt32 y);
-        static void SetPointerPosition(UInt32 pointerId, UInt32 x, UInt32 y);
+        static void SetMouseButtonState(UInt32 buttonId, Boolean isDown, UInt32 x, UInt32 y);
+        static void SetMousePosition(UInt32 x, UInt32 y);
+        static void SetTouchButtonState(UInt32 pointerId, Boolean isDown, UInt32 x, UInt32 y);
+        static void SetTouchPosition(UInt32 pointerId, UInt32 x, UInt32 y);
+        static UInt32 LeftMouseButtonId{ get; };
+        static UInt32 MiddleMouseButtonId{ get; };
+        static UInt32 RightMouseButtonId{ get; };
     }
 }

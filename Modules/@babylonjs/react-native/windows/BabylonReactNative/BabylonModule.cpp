@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "BabylonModule.h"
-#include "JSI/JsiApi.h"
-#include "winrt/BabylonNative.h"
+#include <winrt/BabylonNative.h>
 
 using namespace winrt::BabylonNative;
 using namespace winrt::BabylonReactNative::implementation;

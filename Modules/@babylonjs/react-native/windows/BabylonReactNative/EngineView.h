@@ -14,17 +14,11 @@ namespace winrt::BabylonReactNative::implementation {
         void OnPointerMoved(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Core::PointerEventArgs const& args);
         void OnPointerReleased(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Core::PointerEventArgs const& args);
         void OnRendering();
-        uint32_t GetButtonId(winrt::Windows::Devices::Input::PointerDeviceType deviceType, winrt::Windows::UI::Input::PointerPointProperties properties);
 
-<<<<<<< HEAD
         uint32_t _width{ 1 };
         uint32_t _height{ 1 };
-=======
-        size_t _width{ 1 };
-        size_t _height{ 1 };
         winrt::Windows::Foundation::IAsyncAction _inputLoopWorker{};
         std::unordered_set<uint32_t> _pressedMouseButtons{};
->>>>>>> ddf1b0b38fb5765f09ea8ba613f5152518bfb8f2
 
         struct RevokerData
         {

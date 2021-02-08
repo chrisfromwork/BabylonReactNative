@@ -12,8 +12,14 @@ namespace winrt::BabylonNative::implementation
         static void Deinitialize();
         static void UpdateView(winrt::Windows::UI::Xaml::Controls::SwapChainPanel swapChainPanel, uint32_t width, uint32_t height);
         static void RenderView();
-        static void SetPointerButtonState(uint32_t pointerId, uint32_t buttonId, bool isDown, uint32_t x, uint32_t y);
-        static void SetPointerPosition(uint32_t pointerId, uint32_t x, uint32_t y);
+        static void SetMouseButtonState(uint32_t buttonId, bool isDown, uint32_t x, uint32_t y);
+        static void SetMousePosition(uint32_t x, uint32_t y);
+        static void SetTouchButtonState(uint32_t pointerId, bool isDown, uint32_t x, uint32_t y);
+        static void SetTouchPosition(uint32_t pointerId, uint32_t x, uint32_t y);
+
+        static uint32_t LeftMouseButtonId();
+        static uint32_t MiddleMouseButtonId();
+        static uint32_t RightMouseButtonId();
     };
 }
 

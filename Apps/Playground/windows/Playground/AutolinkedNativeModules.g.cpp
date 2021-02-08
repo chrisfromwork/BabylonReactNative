@@ -16,8 +16,6 @@ void RegisterAutolinkedNativeModulePackages(winrt::Windows::Foundation::Collecti
 { 
     // IReactPackageProviders from @babylonjs/react-native
     packageProviders.Append(winrt::BabylonReactNative::ReactPackageProvider());
-    // IReactPackageProviders from react-native-permissions
-    packageProviders.Append(winrt::RNPermissions::ReactPackageProvider());
 }
 
 }

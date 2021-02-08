@@ -30,6 +30,5 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="BabylonNativeInterop.idl" />
-    <Midl Include="ReactPackageProvider.idl" />
   </ItemGroup>
 </Project>
