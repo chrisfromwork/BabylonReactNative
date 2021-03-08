@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "EngineView.h"
 #include "EngineView.g.cpp"
+#include "windows.ui.xaml.media.dxinterop.h"
 
 using namespace winrt::Windows::Devices::Input;
 using namespace winrt::Windows::Foundation;
@@ -14,8 +15,9 @@ using namespace winrt::Windows::UI::Xaml::Controls;
 
 namespace winrt::BabylonReactNative::implementation {
     EngineView::EngineView() {
-
         _revokerData.SizeChangedRevoker = SizeChanged(winrt::auto_revoke, { this, &EngineView::OnSizeChanged });
+        _revokerData.LoadedRevoker = Loaded(winrt::auto_revoke, { this, &EngineView::OnLoaded });
+        _revokerData.UnloadedRevoker = Unloaded(winrt::auto_revoke, { this, &EngineView::OnUnloaded });
 
         WorkItemHandler workItemHandler([weakThis{ this->get_weak() }](IAsyncAction const& /* action */)
         {
@@ -46,6 +48,11 @@ namespace winrt::BabylonReactNative::implementation {
         });
     }
 
+    EngineView::~EngineView()
+    {
+        _rendering = false;
+    }
+
     void EngineView::OnSizeChanged(IInspectable const& /*sender*/, SizeChangedEventArgs const& args)
     {
         const auto size = args.NewSize();
@@ -56,6 +63,16 @@ namespace winrt::BabylonReactNative::implementation {
         auto windowTypePtr = reinterpret_cast<void*>(2);
         auto windowPtr = get_abi(static_cast<winrt::Windows::UI::Xaml::Controls::SwapChainPanel>(*this));
         Babylon::UpdateView(windowPtr, _width, _height, windowTypePtr);
+    }
+
+    void EngineView::OnLoaded(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Windows::UI::Xaml::RoutedEventArgs const& /*args*/)
+    {
+        _rendering = true;
+    }
+
+    void EngineView::OnUnloaded(winrt::Windows::Foundation::IInspectable const& /*sender*/, winrt::Windows::UI::Xaml::RoutedEventArgs const& /*args*/)
+    {
+        _rendering = false;
     }
 
     void EngineView::OnPointerPressed(IInspectable const& /*sender*/, PointerEventArgs const& args)
@@ -154,6 +171,9 @@ namespace winrt::BabylonReactNative::implementation {
 
     void EngineView::OnRendering()
     {
-        Babylon::RenderView();
+        if (_rendering)
+        {
+            Babylon::RenderView();
+        }
     }
 }

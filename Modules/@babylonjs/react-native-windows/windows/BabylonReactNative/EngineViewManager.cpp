@@ -19,8 +19,7 @@ namespace winrt::BabylonReactNative::implementation {
     }
 
     FrameworkElement EngineViewManager::CreateView() noexcept {
-        _engineView = make<EngineView>();
-        return _engineView;
+        return make<EngineView>();
     }
 
     // IViewManagerWithReactContext

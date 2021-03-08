@@ -24,8 +24,12 @@ using namespace Windows::ApplicationModel;
 /// </summary>
 App::App() noexcept
 {
-#if BUNDLE
+#if BUNDLE && _DEBUG
     // Note: add <UseBundle>true</UseBundle> property to application's ReactNativeWindowsProps PropertyGroup to force BUNDLE to true
+    JavaScriptBundleFile(L"index");
+    InstanceSettings().UseWebDebugger(false);
+    InstanceSettings().UseFastRefresh(true);
+#elif BUNDLE
     JavaScriptBundleFile(L"index.windows");
     InstanceSettings().UseWebDebugger(false);
     InstanceSettings().UseFastRefresh(false);
