@@ -1,3 +1,5 @@
+TESTS
+
 # Babylon React Native
 
 This project provides Babylon Native integration into React Native.
