@@ -93,11 +93,14 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
     (async () => {
       if (xrSession) {
         await xrSession.exitXRAsync();
-        setXrSession(undefined);
-        setTrackingState(undefined);
       } else {
         if (rootNode !== undefined && scene !== undefined) {
-          const xr = await scene.createDefaultXRExperienceAsync({ disableDefaultUI: true, disableTeleportation: true })
+          const xr = await scene.createDefaultXRExperienceAsync({ disableDefaultUI: true, disableTeleportation: true });
+          xr.baseExperience.sessionManager.onXRSessionEnded.add(() => {
+              setXrSession(undefined);
+              setTrackingState(undefined);
+          });
+
           const session = await xr.baseExperience.enterXRAsync("immersive-ar", "unbounded", xr.renderTarget);
           setXrSession(session);
 
