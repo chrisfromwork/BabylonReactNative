@@ -17,6 +17,7 @@
     "@babylonjs/react-native": "file:../../Modules/@babylonjs/react-native",
     "@babylonjs/react-native-windows": "file:../../Modules/@babylonjs/react-native-windows",
     "@react-native-community/slider": "4.0.0-rc.3",
+    "earcut": "^2.2.2",
     "logkitty": "^0.7.1",
     "react": "^17.0.1",
     "react-native": "^0.64.0",
